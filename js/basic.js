@@ -4,6 +4,18 @@ var scene, camera, renderer, stats, stats2, clock;
 // Used in initParticles()
 var emitter, particleGroup;
 
+function emitter_x_list(emitters_count){
+  max_x = 100;
+  interval = (max_x * 2) / emitters_count
+
+  steps = []
+  for(var x=0; x < emitters_count +1 ; x++) {
+    steps[x] = (x * interval) - max_x 
+  }
+
+  return steps
+}
+
 // Setup the scene
 function init() {
   scene = new THREE.Scene();
@@ -26,31 +38,36 @@ function init() {
 }
 
 // Create particle group and emitter
-function initParticles() {
+function initParticles(emitters_count) {
   particleGroup = new SPE.Group({
   texture: {
       value: THREE.ImageUtils.loadTexture('./img/smokeparticle.png')
     }
   });
 
-  emitter = build_emitter()
+  emitter_x_list(emitters_count).forEach(function(x_coord){
+    emitter =  build_emitter(x_coord)
+    emitter.disable();
+    particleGroup.addEmitter(emitter );
+  })
 
-  particleGroup.addEmitter( emitter );
   scene.add( particleGroup.mesh );
 
-  document.querySelector('.numParticles').textContent =
-  'Total particles: ' + emitter.particleCount;
+  // document.querySelector('.numParticles').textContent =
+  // 'Total particles: ' + emitter.particleCount;
 }
 
 
-function build_emitter(){
+
+
+function build_emitter(x){
 
  return new SPE.Emitter({
     maxAge: {
       value: 2
     },
   position: {
-      value: new THREE.Vector3(0, 0, -50),
+      value: new THREE.Vector3(x, 0, -50),
       spread: new THREE.Vector3( 0, 0, 0 )
     },
 
@@ -103,6 +120,14 @@ window.addEventListener( 'resize', function() {
 }, false );
 
 init();
-initParticles();
+// initParticles(10);
+initParticles(88);
+setup_keyboard();
+WebMidi.enable(setup_midi);
 
 setTimeout(animate, 0);
+
+
+
+
+
