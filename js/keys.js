@@ -2,18 +2,20 @@ function setup_keyboard(){
 
   var qwerty_ids = [81,87,69,82,84,89,85,73,79,80]
 
-  key_index = function(event) {
-    return qwerty_ids.indexOf(event.keyCode)
+  key_to_emitter_number = function(event) {
+    key_number = qwerty_ids.indexOf(event.keyCode)
+    emitter_number = ((key_number * 6) + 10)  // we have 88 emitters, pick a distribted set in the middle
+    return  emitter_number;
   }
 
   downHandler = function(event) {
-    key_id = key_index(event)
-    particleGroup.emitters[key_id].enable()
+    emitter_number = key_to_emitter_number(event)
+    particleGroup.emitters[emitter_number].enable()
   };
 
   upHandler = function(event) {
-    key_id = key_index(event)
-    particleGroup.emitters[key_id].disable()
+    emitter_number = key_to_emitter_number(event)
+    particleGroup.emitters[emitter_number].disable()
   };
 
   window.addEventListener("keydown", downHandler, false);
@@ -22,8 +24,6 @@ function setup_keyboard(){
 
 
 function key_to_x(key) {
-  // console.log(app.renderer.width, key)
-  // return app.renderer.width  * ((key - 21) / 88)
   return key - 21
 }
 

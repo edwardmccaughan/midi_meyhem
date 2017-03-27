@@ -1,23 +1,5 @@
-// variables used in init()
-var scene, camera, renderer, stats, stats2, clock;
-
-// Used in initParticles()
-var emitter, particleGroup;
-
-function emitter_x_list(emitters_count){
-  max_x = 90;
-  interval = (max_x * 2) / emitters_count
-
-  steps = []
-  for(var x=0; x < emitters_count +1 ; x++) {
-    steps[x] = (x * interval) - max_x 
-  }
-
-  return steps
-}
-
 // Setup the scene
-function init() {
+function init_scene() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
   // camera.position.z = 50;
@@ -52,14 +34,24 @@ function initParticles(emitters_count) {
   })
 
   scene.add( particleGroup.mesh );
-
-  // document.querySelector('.numParticles').textContent =
-  // 'Total particles: ' + emitter.particleCount;
 }
 
 
+// figure out where to put the emitters
+function emitter_x_list(emitters_count){
+  max_x = 90;
+  interval = (max_x * 2) / emitters_count
+
+  steps = []
+  for(var x=0; x < emitters_count +1 ; x++) {
+    steps[x] = (x * interval) - max_x 
+  }
+
+  return steps
+}
 
 
+// Make one of the emitters. they're all the same except the x position
 function build_emitter(x){
 
  return new SPE.Emitter({
@@ -118,15 +110,6 @@ window.addEventListener( 'resize', function() {
 
   renderer.setSize( w, h );
 }, false );
-
-init();
-// initParticles(10);
-initParticles(88);
-setup_keyboard();
-WebMidi.enable(setup_midi);
-
-setTimeout(animate, 0);
-
 
 
 
