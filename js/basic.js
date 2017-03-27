@@ -5,7 +5,7 @@ var scene, camera, renderer, stats, stats2, clock;
 var emitter, particleGroup;
 
 function emitter_x_list(emitters_count){
-  max_x = 100;
+  max_x = 90;
   interval = (max_x * 2) / emitters_count
 
   steps = []
@@ -67,17 +67,17 @@ function build_emitter(x){
       value: 2
     },
   position: {
-      value: new THREE.Vector3(x, 0, -50),
+      value: new THREE.Vector3(x, -30, -50),
       spread: new THREE.Vector3( 0, 0, 0 )
     },
 
   acceleration: {
-      value: new THREE.Vector3(0, -10, 0),
+      value: new THREE.Vector3(0, -20, 0),
       spread: new THREE.Vector3( 10, 0, 10 )
     },
 
   velocity: {
-      value: new THREE.Vector3(0, 25, 0),
+      value: new THREE.Vector3(0, 60, 0),
       spread: new THREE.Vector3(10, 7.5, 10)
     },
 
