@@ -8,6 +8,7 @@ var emitter, particleGroup;
 init_scene();
 initParticles();
 setup_keyboard();
+
 WebMidi.enable(setup_midi);
 
 setTimeout(animate, 0);
