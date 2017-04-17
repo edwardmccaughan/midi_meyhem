@@ -7,3 +7,8 @@ https://www.youtube.com/watch?v=rSy5GP3ihAg
 * best played on a projector in a dark room
 * it's a work in progress. feel free to clone and hack around on your own version
 * uses the webmidi.js (https://github.com/cotejp/webmidi) and ShaderParticleEngine (https://github.com/squarefeet/ShaderParticleEngine)
+
+
+Disclaimer:
+This was mostly hacked together at 3am by copying and pasting random crap together until something vaguely pretty appeared on the screen, if you enjoy reading well written, elegant, performant code....you might want to look away :-p
+(I'm pretty sure if they guy that wrote the particle emitter library sees how I'm using it, he'd have a heart attack)
