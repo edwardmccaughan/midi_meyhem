@@ -1,20 +1,9 @@
-function key_pressed(key){
-  var relevant_cells = cells_for_key[key]
-  var delay = 0;
-  relevant_cells.forEach((cell) =>{
-    setTimeout(()=>{
-      cell.activate()
-    }, delay)
-
-    delay += delay_between_cells;
-  })
+function key_pressed(key) {
+  lines[key].active = true
 }
 
 function key_released(key) {  
-  var relevant_cells = cells_near_to_key(key)
-  relevant_cells.forEach((cell) =>{
-    // cell.deactivate()
-  })
+  lines[key].active = false
 }
 
 
@@ -46,7 +35,8 @@ function setup_keyboard(){
 
 
 function key_to_x(key) {
-  return key - 21
+  // TODO remove the 15, or just handle the first 15 keys better
+  return key - 21 - 15
 }
 
 function setup_midi(err){
@@ -54,7 +44,7 @@ function setup_midi(err){
 
   var piano = WebMidi.inputs[1]
   console.log("setting up midi", piano, piano.name)
-  
+
   if(piano) { 
     piano.addListener('noteon', "all", function (e) {
       key = key_to_x(e.data[1])
