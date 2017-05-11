@@ -58,6 +58,7 @@ class Line {
 
     this.start_width = 18
     this.color = color
+    this.offset = 200
 
   }
 
@@ -74,8 +75,10 @@ class Line {
   draw() {
     if(this.width > 0){
       graphics.lineStyle(this.width, this.color)
-      graphics.moveTo(this.x, renderer.height).lineTo(this.left_end_x , this.end_y);  
-      graphics.moveTo(this.x, renderer.height).lineTo(this.right_end_x, this.end_y);  
+
+      graphics.moveTo(this.x, renderer.height).lineTo(this.x , renderer.height- this.offset); 
+      graphics.moveTo(this.x, renderer.height -this.offset).lineTo(this.left_end_x , this.end_y - this.offset);  
+      graphics.moveTo(this.x, renderer.height -this.offset).lineTo(this.right_end_x, this.end_y - this.offset);  
     }
   }
 }
@@ -98,7 +101,7 @@ requestAnimationFrame(animate);
 function animate() {
   graphics.clear()
 
-  graphics.blendMode = PIXI.BLEND_MODES.ADD
+  //graphics.blendMode = PIXI.BLEND_MODES.ADD
 
   lines.forEach((line) => {
     line.update()
