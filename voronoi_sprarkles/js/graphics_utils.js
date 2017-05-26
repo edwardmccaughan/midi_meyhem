@@ -14,5 +14,3 @@ function setup_pixi() {
   graphics = new PIXI.Graphics();
   stage.addChild(graphics);
 }
-
-antialias
