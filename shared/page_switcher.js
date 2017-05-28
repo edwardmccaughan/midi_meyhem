@@ -1,4 +1,16 @@
-function switch_page(key)
+function switch_page(key) {
+  var page = {
+      27: "between_worlds",
+      29: "candelabra",
+      31: "pixi_radiant",
+      32: "so_many_vs",
+      34: "voronoi_sparkles",
+      36: "walkers"
+  }
+
+  var url = "/" + page[key]
+  console.log("goto": url)
+}
 
 
 function setup_page_switcher(err){
@@ -9,14 +21,7 @@ function setup_page_switcher(err){
 
   if(piano) { 
     piano.addListener('noteon', "all", function (e) {
-      key = key_to_x(e.data[1])
-      console.log(key)
-      key_pressed(key)
-    });
-
-    piano.addListener('noteoff', "all", function (e){
-      key = key_to_x(e.data[1])
-      key_released(key)
+      switch_page(e.data[1])
     });
   }
 }

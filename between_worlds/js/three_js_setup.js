@@ -24,7 +24,7 @@ function init_scene() {
   stats.domElement.style.top = '0';
 
   document.body.appendChild( renderer.domElement );
-  document.body.appendChild( stats.domElement );
+  // document.body.appendChild( stats.domElement );
 }
 
 function getRandomNumber( base ) {
@@ -85,8 +85,7 @@ function initParticles() {
 
   scene.add( particleGroup.mesh );
 
-  document.querySelector('.numParticles').textContent =
-    'Total particles: ' + particleGroup.particleCount;
+  //document.querySelector('.numParticles').textContent = 'Total particles: ' + particleGroup.particleCount;
 }
 
 

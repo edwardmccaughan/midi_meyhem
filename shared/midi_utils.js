@@ -30,22 +30,24 @@ function setup_keyboard(){
 
 
 
-function setup_midi(err){
+function setup_interaction_midi(err){
   if(err){ console.log(err) }
 
   // var piano = keyboards.garage_key()
-  var piano = keyboards.first()
-  console.log("setting up midi", piano, piano.name)
+  var piano = keyboards.alessis()
 
   if(piano) { 
+    console.log("setting up midi keyboard for interaction", piano, piano.name)
+    
     piano.addListener('noteon', "all", function (e) {
       key = key_to_x(e.data[1])
-      console.log(key)
+      console.log("interaction pressed:", e.data[1] )
       key_pressed(key)
     });
 
     piano.addListener('noteoff', "all", function (e){
       key = key_to_x(e.data[1])
+      console.log("interaction pressed:", e.data[1] )
       key_released(key)
     });
   }
@@ -58,7 +60,7 @@ keyboards = {
   },
 
   alessis: function(){
-    return keyboards.find_by_name("alessis")[0]
+    return keyboards.find_by_name("Alesis Recital MIDI 1")[0]
   },
   garage_key: function(){
     return keyboards.find_by_name("GarageKey mini MIDI 1")[0]
@@ -69,3 +71,45 @@ keyboards = {
 }
 
 
+
+
+function switch_page(key) {
+  var pages = {
+      48: "between_worlds",
+      50: "candelabra",
+      52: "pixi_radiant",
+      53: "so_many_vs",
+      55: "voronoi_sparkles",
+      57: "walkers"
+  }
+
+  var page = pages[key]
+
+  if(page) {
+    var url = "/" + page
+    window.location = url
+  }
+}
+
+
+function setup_page_switcher_midi(err){
+  if(err){ console.log(err) }
+
+  var piano = keyboards.garage_key()
+
+  if(piano) { 
+    console.log("setting up midi for page switcher", piano, piano.name)
+
+    piano.addListener('noteon', "all", function (e) {
+      var key = e.data[1]
+      console.log("page switcher pressed:", key )
+      switch_page(key)
+    });
+  }
+}
+
+
+function setup_midi() {
+  setup_page_switcher_midi()
+  setup_interaction_midi()
+}
