@@ -3,6 +3,7 @@ function key_to_x(key) {
 }
 
 function setup_keyboard(){
+  switch_page_from_keyboard()
 
   var qwerty_ids = [81,65,90,87,83,88,69,68,67,82,70,86,84,71,66,89,72,78,85,74,77,73,75,188,79,76,190,80,186,191]
 
@@ -28,49 +29,26 @@ function setup_keyboard(){
   window.addEventListener("keyup", upHandler, false);
 }
 
+function switch_page_from_keyboard(){
+  window.addEventListener("keydown", (event) => {
+    var pages = {
+        49: "between_worlds",
+        50: "candelabra",
+        51: "pixi_radiant",
+        52: "so_many_vs",
+        53: "voronoi_sparkles",
+        54: "walkers"
+    }
 
+    var page = pages[event.keyCode]
 
-function setup_interaction_midi(err){
-  if(err){ console.log(err) }
+    if(page) {
+      var url = "/" + page
+      window.location = url
+    }
 
-  // var piano = keyboards.garage_key()
-  var piano = keyboards.alessis()
-
-  if(piano) { 
-    console.log("setting up midi keyboard for interaction", piano, piano.name)
-    
-    piano.addListener('noteon', "all", function (e) {
-      key = key_to_x(e.data[1])
-      console.log("interaction pressed:", e.data[1] )
-      key_pressed(key)
-    });
-
-    piano.addListener('noteoff', "all", function (e){
-      key = key_to_x(e.data[1])
-      console.log("interaction pressed:", e.data[1] )
-      key_released(key)
-    });
-  }
+  }, false);
 }
-
-
-keyboards = {
-  find_by_name: function(name) {
-    return WebMidi.inputs.filter(function(input){ return input.name == name})
-  },
-
-  alessis: function(){
-    return keyboards.find_by_name("Alesis Recital MIDI 1")[0]
-  },
-  garage_key: function(){
-    return keyboards.find_by_name("GarageKey mini MIDI 1")[0]
-  },
-  first: function(){
-    return WebMidi.inputs[1]
-  }
-}
-
-
 
 
 function switch_page(key) {
@@ -92,24 +70,59 @@ function switch_page(key) {
 }
 
 
-function setup_page_switcher_midi(err){
-  if(err){ console.log(err) }
+function setup_interaction_midi(keyboard){
+  console.log("setting up midi keyboard for interaction", keyboard, keyboard.name)
+  
+  keyboard.addListener('noteon', "all", function (e) {
+    key = key_to_x(e.data[1])
+    console.log("interaction pressed:", e.data[1] )
+    key_pressed(key)
+  });
 
-  var piano = keyboards.garage_key()
+  keyboard.addListener('noteoff', "all", function (e){
+    key = key_to_x(e.data[1])
+    console.log("interaction pressed:", e.data[1] )
+    key_released(key)
+  });
+}
 
-  if(piano) { 
-    console.log("setting up midi for page switcher", piano, piano.name)
+function setup_page_switcher_midi(keyboard){
+  console.log("setting up midi for page switcher", keyboard, keyboard.name)
 
-    piano.addListener('noteon', "all", function (e) {
-      var key = e.data[1]
-      console.log("page switcher pressed:", key )
-      switch_page(key)
-    });
+  keyboard.addListener('noteon', "all", function (e) {
+    var key = e.data[1]
+    console.log("page switcher pressed:", key )
+    switch_page(key)
+  });
+}
+
+keyboards = {
+  find_by_name: function(name) {
+    return WebMidi.inputs.filter(function(input){ return input.name == name})
+  },
+
+  alessis: function(){
+    return keyboards.find_by_name("Alesis Recital MIDI 1")[0]
+  },
+  garage_key: function(){
+    return keyboards.find_by_name("GarageKey mini MIDI 1")[0]
+  },
+  yamaha: function(){
+    return keyboards.find_by_name("Digital Piano MIDI 1")[0]
+  },
+  first: function(){
+    return WebMidi.inputs[1]
+  },
+  everything_but_garage_key: function(){
+    return WebMidi.inputs.filter(function(input){ return input != keyboards.garage_key()})
   }
 }
 
-
 function setup_midi() {
-  setup_page_switcher_midi()
-  setup_interaction_midi()
+  setup_page_switcher_midi(keyboards.garage_key())
+
+  keyboards.everything_but_garage_key().forEach((keyboard) => {
+    setup_interaction_midi(keyboard)
+  })
+  
 }
