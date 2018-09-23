@@ -119,8 +119,10 @@ keyboards = {
 }
 
 function setup_midi() {
-  setup_page_switcher_midi(keyboards.garage_key())
-
+  if(keyboards.garage_key() != null){
+    setup_page_switcher_midi(keyboards.garage_key())
+  }
+  
   keyboards.everything_but_garage_key().forEach((keyboard) => {
     setup_interaction_midi(keyboard)
   })
