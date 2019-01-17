@@ -98,33 +98,44 @@ function setup_page_switcher_midi(keyboard){
 
 keyboards = {
   find_by_name: function(name) {
-    return WebMidi.inputs.filter(function(input){ return input.name == name})
+    return WebMidi.inputs.filter(function(input){ return input.name.includes(name)})
   },
 
   alessis: function(){
-    return keyboards.find_by_name("Alesis Recital MIDI 1")[0]
+    return keyboards.find_by_name("Alesis Recital")[0]
   },
   garage_key: function(){
-    return keyboards.find_by_name("GarageKey mini MIDI 1")[0]
+    return keyboards.find_by_name("GarageKey mini")[0]
+  },
+  keystation_mini: function(){
+    return keyboards.find_by_name("Keystation Mini 32")[0]
   },
   yamaha: function(){
-    return keyboards.find_by_name("Digital Piano MIDI 1")[0]
+    return keyboards.find_by_name("Digital Piano")[0]
   },
   first: function(){
     return WebMidi.inputs[1]
   },
-  everything_but_garage_key: function(){
-    return WebMidi.inputs.filter(function(input){ return input != keyboards.garage_key()})
+  everything_but_mini_keyboards: function(){
+    return WebMidi.inputs.filter((input) => {
+      return ![keyboards.garage_key(), keyboards.keystation_mini()].includes(input)
+    })
   }
 }
 
 function setup_midi() {
-  if(keyboards.garage_key() != null){
-    setup_page_switcher_midi(keyboards.garage_key())
+  if(keyboards.keystation_mini() != null){
+    setup_page_switcher_midi(keyboards.keystation_mini())
   }
-  
-  keyboards.everything_but_garage_key().forEach((keyboard) => {
+
+  keyboards.everything_but_mini_keyboards().forEach((keyboard) => {
     setup_interaction_midi(keyboard)
   })
   
+  // TODO: test this :-p
+  // WebMidi.addListener('connected', (event)=>{ console.log('connected', event)})
+ 
+  // window.setTimeout(()=>{
+  //   WebMidi.addListener('connected', () => { window.location.reload()})
+  // }, 3000)
 }
