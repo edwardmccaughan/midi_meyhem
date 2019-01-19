@@ -7,6 +7,7 @@ https://www.youtube.com/watch?v=rSy5GP3ihAg
 * best played on a projector in a dark room
 * it's a work in progress. feel free to clone and hack around on your own version
 * uses the webmidi.js (https://github.com/cotejp/webmidi) and ShaderParticleEngine (https://github.com/squarefeet/ShaderParticleEngine)
+* demo at http://midimeyhem.buzzwordoverload.co.uk
 
 
 Disclaimer:
