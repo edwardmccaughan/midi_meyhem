@@ -32,15 +32,15 @@ function setup_keyboard(){
 function switch_page_from_keyboard(){
   window.addEventListener("keydown", (event) => {
     var pages = {
-        49: "between_worlds",
-        50: "candelabra",
-        51: "pixi_radiant",
-        52: "so_many_vs",
-        53: "voronoi_sparkles",
-        54: "walkers"
-    }
-
-    var page = pages[event.keyCode]
+          Digit0: "between_worlds",
+          Digit1: "candelabra",
+          Digit2: "pixi_radiant",
+          Digit3: "so_many_vs",
+          Digit4: "voronoi_sparkles",
+          Digit5: "walkers",
+          Digit6: "waaaaaaves"
+      }
+      var page = pages[event.code]
 
     if(page) {
       var url = "/" + page
@@ -58,7 +58,8 @@ function switch_page(key) {
       52: "pixi_radiant",
       53: "so_many_vs",
       55: "voronoi_sparkles",
-      57: "walkers"
+      57: "walkers",
+      59: "waaaaaaves"
   }
 
   var page = pages[key]
