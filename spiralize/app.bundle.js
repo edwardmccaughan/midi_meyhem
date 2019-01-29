@@ -136,9 +136,9 @@ new _midi.MidiController(function (key, velocity) {
   key_up(key);
 });
 new _real_keyboard.RealKeyboard(function (key, velocity) {
-  undefined.key_down(key);
+  key_down(key);
 }, function (key) {
-  undefined.key_up(key);
+  key_up(key);
 });
 
 /***/ }),
