@@ -244,7 +244,8 @@ var MidiController = exports.MidiController = function () {
         55: "voronoi_sparkles",
         57: "walkers",
         59: "waaaaaaves",
-        60: "spiralize"
+        60: "spiralize",
+        62: "dots_everywhere"
       };
 
       var page = pages[key];
@@ -392,7 +393,8 @@ var RealKeyboard = exports.RealKeyboard = function () {
           Digit4: "voronoi_sparkles",
           Digit5: "walkers",
           Digit6: "waaaaaaves",
-          Digit7: "spiralize"
+          Digit7: "spiralize",
+          Digit8: "dots_everywhere"
         };
         var page = pages[event.code];
 

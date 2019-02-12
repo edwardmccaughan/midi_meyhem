@@ -39,7 +39,8 @@ function switch_page_from_keyboard(){
           Digit4: "voronoi_sparkles",
           Digit5: "walkers",
           Digit6: "waaaaaaves",
-          Digit7: "spiralize"
+          Digit7: "spiralize",
+          Digit8: "dots_everywhere"
       }
       var page = pages[event.code]
 
@@ -61,7 +62,8 @@ function switch_page(key) {
       55: "voronoi_sparkles",
       57: "walkers",
       59: "waaaaaaves",
-      60: "spiralize"
+      60: "spiralize",
+      62: "dots_everywhere"
   }
 
   var page = pages[key]
