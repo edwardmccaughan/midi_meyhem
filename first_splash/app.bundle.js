@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 1149:
+/***/ 1150:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13,13 +13,13 @@ exports.SimpleScene = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _midi = __webpack_require__(1150);
+var _midi = __webpack_require__(1151);
 
-var _real_keyboard = __webpack_require__(1152);
+var _real_keyboard = __webpack_require__(1153);
 
-var _keypoint = __webpack_require__(1153);
+var _keypoint = __webpack_require__(1154);
 
-var _circle = __webpack_require__(1154);
+var _circle = __webpack_require__(467);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -116,7 +116,7 @@ var SimpleScene = exports.SimpleScene = function (_Phaser$Scene) {
 
 /***/ }),
 
-/***/ 1150:
+/***/ 1151:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -133,7 +133,7 @@ var _webmidi = __webpack_require__(466);
 
 var _webmidi2 = _interopRequireDefault(_webmidi);
 
-var _keyboards = __webpack_require__(1151);
+var _keyboards = __webpack_require__(1152);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -208,7 +208,6 @@ var MidiController = exports.MidiController = function () {
     key: 'switch_page',
     value: function switch_page(key) {
       var page = window.scene_switcher_config.midi_keys[key];
-
       if (page) {
         window.location = '/' + page;
       }
@@ -225,7 +224,7 @@ var MidiController = exports.MidiController = function () {
 
 /***/ }),
 
-/***/ 1151:
+/***/ 1152:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -311,7 +310,7 @@ var Keyboards = exports.Keyboards = function () {
 
 /***/ }),
 
-/***/ 1152:
+/***/ 1153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -329,7 +328,6 @@ var RealKeyboard = exports.RealKeyboard = function () {
   function RealKeyboard(scene_keydown_handler, scene_keyup_handler) {
     _classCallCheck(this, RealKeyboard);
 
-    this.fullscreen_handler();
     this.switch_page_from_keyboard();
     this.scene_keyup_handler = scene_keyup_handler;
     this.scene_keydown_handler = scene_keydown_handler;
@@ -345,23 +343,10 @@ var RealKeyboard = exports.RealKeyboard = function () {
     value: function switch_page_from_keyboard() {
       window.addEventListener("keydown", function (event) {
         var page = window.scene_switcher_config.keyboard_keys[event.code];
-
         if (page) {
           window.location = "/" + page;
         }
       }, false);
-    }
-  }, {
-    key: "fullscreen_handler",
-    value: function fullscreen_handler() {
-      window.addEventListener('keypress', function (e) {
-        if (e.code == 'Digit9') {
-          document.documentElement.webkitRequestFullScreen();
-        } else if (e.code == 'Digit0') {
-          document.webkitExitFullscreen();
-        }
-        console.log(e.code);
-      });
     }
   }, {
     key: "key_to_number",
@@ -391,7 +376,7 @@ var RealKeyboard = exports.RealKeyboard = function () {
 
 /***/ }),
 
-/***/ 1153:
+/***/ 1154:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -400,8 +385,11 @@ var RealKeyboard = exports.RealKeyboard = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.KeyPoint = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _circle = __webpack_require__(467);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -412,14 +400,11 @@ var KeyPoint = exports.KeyPoint = function () {
     this.note_number = note_number;
     this.place_on_keyboard = this.note_number - 21;
     this.calculate_center();
-    // this.pressed = false
   }
 
   _createClass(KeyPoint, [{
-    key: "calculate_center",
+    key: 'calculate_center',
     value: function calculate_center() {
-      // TODO: constantise all this madness
-
       var x_offset = window.innerWidth * 1.2 / 12; // not sure what's happening here, 1/12 is not centered...
       var x_factor = window.innerWidth * 5 / 6;
 
@@ -429,34 +414,34 @@ var KeyPoint = exports.KeyPoint = function () {
       this.y = Math.floor(this.place_on_keyboard / keys_in_octave) / octaves_on_keyboard * y_factor + y_offset;
     }
   }, {
-    key: "update",
+    key: 'update',
     value: function update() {
       if (!this.is_renderable()) {
         return;
       }
-      window.scene.graphics.fillStyle(0x333333, 1);
-      window.scene.graphics.fillCircle(this.x, this.y, 2);
+      window.scene.graphics.fillStyle(0x222222, 1);
+      window.scene.graphics.fillCircle(this.x, this.y, 4);
     }
   }, {
-    key: "pressed",
+    key: 'pressed',
     value: function pressed() {
-      window.scene.circles.push(new Circle(this.x, this.y, this.circle_color()));
+      window.scene.circles.push(new _circle.Circle(this.x, this.y, this.circle_color()));
     }
   }, {
-    key: "released",
+    key: 'released',
     value: function released() {}
   }, {
-    key: "position_in_octave",
+    key: 'position_in_octave',
     value: function position_in_octave() {
       return this.place_on_keyboard % keys_in_octave;
     }
   }, {
-    key: "is_renderable",
+    key: 'is_renderable',
     value: function is_renderable() {
       return this.note_number >= 21 && this.note_number <= 108;
     }
   }, {
-    key: "circle_color",
+    key: 'circle_color',
     value: function circle_color() {
       this._circle_color = Phaser.Display.Color.HSLToColor(this.position_in_octave() / keys_in_octave, 0.75, 0.4).color;
       return this._circle_color;
@@ -464,60 +449,6 @@ var KeyPoint = exports.KeyPoint = function () {
   }]);
 
   return KeyPoint;
-}();
-
-/***/ }),
-
-/***/ 1154:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Circle = exports.Circle = function () {
-  function Circle(x, y, color) {
-    _classCallCheck(this, Circle);
-
-    this.x = x;
-    this.y = y;
-    this.radius = 0;
-    this.max_radius = 300;
-    this.alive = true;
-    // this.color = Phaser.Display.Color.HSLToColor(Math.random(),0.75,0.4).color;
-    this.color = color;
-    //TODO: also try moving in a random direction
-  }
-
-  _createClass(Circle, [{
-    key: "update",
-    value: function update() {
-      this.radius += 2;
-
-      if (this.radius > this.max_radius) {
-        this.alive = false;
-      }
-
-      var alpha = 1 - this.radius * 2 / this.max_radius;
-      if (alpha < 0.07) {
-        alpha = 0.07;
-      }
-
-      window.scene.graphics.lineStyle(2, this.color, alpha);
-      window.scene.graphics.beginPath();
-      window.scene.graphics.arc(this.x, this.y, this.radius, 0, Phaser.Math.DegToRad(360), false);
-      window.scene.graphics.strokePath();
-    }
-  }]);
-
-  return Circle;
 }();
 
 /***/ }),
@@ -566,9 +497,63 @@ var that=this;if(options=options||{},program=Math.floor(program),isNaN(program)|
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Circle = exports.Circle = function () {
+  function Circle(x, y, color) {
+    _classCallCheck(this, Circle);
+
+    this.x = x;
+    this.y = y;
+    this.radius = 0;
+    this.max_radius = 300;
+    this.alive = true;
+    // this.color = Phaser.Display.Color.HSLToColor(Math.random(),0.75,0.4).color;
+    this.color = color;
+    //TODO: also try moving in a random direction
+  }
+
+  _createClass(Circle, [{
+    key: "update",
+    value: function update() {
+      this.radius += 2;
+
+      if (this.radius > this.max_radius) {
+        this.alive = false;
+      }
+
+      var alpha = 1 - this.radius * 2 / this.max_radius;
+      if (alpha < 0.07) {
+        alpha = 0.07;
+      }
+
+      window.scene.graphics.lineStyle(4, this.color, alpha);
+      window.scene.graphics.beginPath();
+      window.scene.graphics.arc(this.x, this.y, this.radius, 0, Phaser.Math.DegToRad(360), false);
+      window.scene.graphics.strokePath();
+    }
+  }]);
+
+  return Circle;
+}();
+
+/***/ }),
+
+/***/ 468:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 __webpack_require__(220);
 
-var _simpleScene = __webpack_require__(1149);
+var _simpleScene = __webpack_require__(1150);
 
 window.keys_in_octave = 12;
 window.octaves_on_keyboard = 7;
@@ -592,31 +577,6 @@ var game = new Phaser.Game(gameConfig);
 
 window.game = game;
 
-window.scene_switcher_config = {
-  midi_keys: {
-    48: "between_worlds",
-    50: "candelabra",
-    52: "pixi_radiant",
-    53: "so_many_vs",
-    55: "voronoi_sparkles",
-    57: "walkers",
-    59: "waaaaaaves",
-    60: "spiralize",
-    62: "dots_everywhere"
-  },
-  keyboard_keys: {
-    Digit0: "between_worlds",
-    Digit1: "candelabra",
-    Digit2: "pixi_radiant",
-    Digit3: "so_many_vs",
-    Digit4: "voronoi_sparkles",
-    Digit5: "walkers",
-    Digit6: "waaaaaaves",
-    Digit7: "spiralize",
-    Digit8: "dots_everywhere"
-  }
-};
-
 /***/ })
 
-},[467]);
+},[468]);
