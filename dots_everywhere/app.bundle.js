@@ -200,23 +200,10 @@ var MidiController = exports.MidiController = function () {
   }, {
     key: 'switch_page',
     value: function switch_page(key) {
-      var pages = {
-        48: "between_worlds",
-        50: "candelabra",
-        52: "pixi_radiant",
-        53: "so_many_vs",
-        55: "voronoi_sparkles",
-        57: "walkers",
-        59: "waaaaaaves",
-        60: "spiralize",
-        62: "dots_everywhere"
-      };
-
-      var page = pages[key];
+      var page = window.scene_switcher_config.midi_keys[key];
 
       if (page) {
-        var url = "/" + page;
-        window.location = url;
+        window.location = '/' + page;
       }
     }
   }, {
@@ -350,22 +337,10 @@ var RealKeyboard = exports.RealKeyboard = function () {
     key: "switch_page_from_keyboard",
     value: function switch_page_from_keyboard() {
       window.addEventListener("keydown", function (event) {
-        var pages = {
-          Digit0: "between_worlds",
-          Digit1: "candelabra",
-          Digit2: "pixi_radiant",
-          Digit3: "so_many_vs",
-          Digit4: "voronoi_sparkles",
-          Digit5: "walkers",
-          Digit6: "waaaaaaves",
-          Digit7: "spiralize",
-          Digit8: "dots_everywhere"
-        };
-        var page = pages[event.code];
+        var page = window.scene_switcher_config.keyboard_keys[event.code];
 
         if (page) {
-          var url = "/" + page;
-          window.location = url;
+          window.location = "/" + page;
         }
       }, false);
     }

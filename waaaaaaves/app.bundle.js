@@ -302,23 +302,9 @@ var MidiController = exports.MidiController = function () {
   }, {
     key: 'switch_page',
     value: function switch_page(key) {
-      var pages = {
-        48: "between_worlds",
-        50: "candelabra",
-        52: "pixi_radiant",
-        53: "so_many_vs",
-        55: "voronoi_sparkles",
-        57: "walkers",
-        59: "waaaaaaves",
-        60: "spiralize",
-        62: "dots_everywhere"
-      };
-
-      var page = pages[key];
-
+      var page = window.scene_switcher_config.midi_keys[key];
       if (page) {
-        var url = "/" + page;
-        window.location = url;
+        window.location = '/' + page;
       }
     }
   }, {
@@ -438,7 +424,6 @@ var RealKeyboard = exports.RealKeyboard = function () {
   function RealKeyboard(scene_keydown_handler, scene_keyup_handler) {
     _classCallCheck(this, RealKeyboard);
 
-    this.fullscreen_handler();
     this.switch_page_from_keyboard();
     this.scene_keyup_handler = scene_keyup_handler;
     this.scene_keydown_handler = scene_keydown_handler;
@@ -453,36 +438,11 @@ var RealKeyboard = exports.RealKeyboard = function () {
     key: "switch_page_from_keyboard",
     value: function switch_page_from_keyboard() {
       window.addEventListener("keydown", function (event) {
-        var pages = {
-          Digit0: "between_worlds",
-          Digit1: "candelabra",
-          Digit2: "pixi_radiant",
-          Digit3: "so_many_vs",
-          Digit4: "voronoi_sparkles",
-          Digit5: "walkers",
-          Digit6: "waaaaaaves",
-          Digit7: "spiralize",
-          Digit8: "dots_everywhere"
-        };
-        var page = pages[event.code];
-
+        var page = window.scene_switcher_config.keyboard_keys[event.code];
         if (page) {
-          var url = "/" + page;
-          window.location = url;
+          window.location = "/" + page;
         }
       }, false);
-    }
-  }, {
-    key: "fullscreen_handler",
-    value: function fullscreen_handler() {
-      window.addEventListener('keypress', function (e) {
-        if (e.code == 'Digit9') {
-          document.documentElement.webkitRequestFullScreen();
-        } else if (e.code == 'Digit0') {
-          document.webkitExitFullscreen();
-        }
-        console.log(e.code);
-      });
     }
   }, {
     key: "key_to_number",
